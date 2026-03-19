@@ -1,0 +1,2 @@
+output x;
+var x;

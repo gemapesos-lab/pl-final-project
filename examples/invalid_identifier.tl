@@ -1,0 +1,2 @@
+var café;
+output café;
