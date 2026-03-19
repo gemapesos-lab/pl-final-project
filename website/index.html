@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToyLang — Playground</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-playground">
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">ToyLang</span>
+      <span class="logo-bracket">]</span>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link active">Playground</a>
+      <a href="docs.html"  class="nav-link">Docs</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══ MAIN ══════════════════════════════════════════════════════════════════ -->
+<main class="playground-main">
+
+  <!-- ─── EDITOR PANEL ────────────────────────────────────────────────────── -->
+  <div class="panel editor-panel">
+
+    <div class="panel-header blue">
+      <span class="panel-title">✏️ Editor</span>
+      <span style="font-size:0.78rem;color:rgba(255,255,255,0.7);font-weight:600">
+        Ctrl+Enter to run
+      </span>
+    </div>
+
+    <!-- Examples bar -->
+    <div class="editor-top-bar">
+      <label for="examples-dropdown">Load Example:</label>
+      <select id="examples-dropdown" class="toy-select">
+        <option value="">— write your own code —</option>
+      </select>
+    </div>
+
+    <!-- Example description -->
+    <div id="example-desc" style="padding:6px 14px;min-height:28px;font-size:0.83rem;display:flex;align-items:center;gap:8px;background:#FAFBFF;border-bottom:1px solid #EEF0FA;"></div>
+
+    <!-- Code editor -->
+    <div class="editor-body">
+      <div class="line-numbers" id="line-numbers">1</div>
+      <div class="editor-highlight-wrapper">
+        <pre class="highlight-layer" id="highlight-layer" aria-hidden="true"></pre>
+        <textarea
+          id="code-editor"
+          class="code-editor"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          placeholder="/* Write ToyLang code here, or pick an example above */&#10;&#10;var x;&#10;x = 6 * 7;&#10;output x;"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Stdin -->
+    <div class="stdin-section">
+      <div class="stdin-label">
+        <div class="stdin-icon">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+            <path d="M1 5.5h9M6 1l4.5 4.5L6 10" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        Standard Input
+        <span style="font-weight:400;color:var(--muted);font-size:0.75rem">(one integer per line for each <code>input</code> statement)</span>
+      </div>
+      <textarea
+        id="stdin-input"
+        class="stdin-textarea"
+        spellcheck="false"
+        placeholder="e.g.  7"
+      ></textarea>
+    </div>
+
+    <!-- Actions -->
+    <div class="editor-actions">
+      <button id="run-btn" class="toy-btn btn-run">
+        <div class="status-dot" id="run-dot"></div>
+        ▶ Run
+      </button>
+      <button id="clear-btn" class="toy-btn btn-clear">
+        ✕ Clear
+      </button>
+    </div>
+
+  </div><!-- /editor-panel -->
+
+  <!-- ─── OUTPUT PANEL ─────────────────────────────────────────────────────── -->
+  <div class="panel output-panel">
+
+    <div class="panel-header green">
+      <span class="panel-title">🔬 Analysis &amp; Output</span>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="output-tabs">
+      <button class="output-tab active" data-tab="tokens">
+        🔤 Tokens
+        <span class="tab-count" id="token-count" style="display:none"></span>
+      </button>
+      <button class="output-tab" data-tab="ast">
+        🌳 AST
+        <span class="tab-count" id="ast-count" style="display:none"></span>
+      </button>
+      <button class="output-tab" data-tab="semantic">
+        🔍 Semantic
+      </button>
+      <button class="output-tab" data-tab="output">
+        ⚡ Output
+      </button>
+    </div>
+
+    <!-- Tab content panes -->
+    <div class="output-content active" id="tab-tokens"></div>
+    <div class="output-content"        id="tab-ast"></div>
+    <div class="output-content"        id="tab-semantic"></div>
+    <div class="output-content"        id="tab-output"></div>
+
+  </div><!-- /output-panel -->
+
+</main>
+
+
+<script src="toylang.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

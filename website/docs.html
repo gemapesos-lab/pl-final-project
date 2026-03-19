@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToyLang — Documentation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">ToyLang</span>
+      <span class="logo-bracket">]</span>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html" class="nav-link">Playground</a>
+      <a href="docs.html"  class="nav-link active">Docs</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══ MAIN ══════════════════════════════════════════════════════════════════ -->
+<div class="docs-body">
+
+  <!-- ─── SIDEBAR ─────────────────────────────────────────────────────────── -->
+  <aside class="docs-sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">📖 Contents</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Overview</div>
+      <a href="#intro"      class="sidebar-link"><span class="sl-dot"></span>Introduction</a>
+      <a href="#quickstart" class="sidebar-link"><span class="sl-dot"></span>Quick Start</a>
+
+      <div class="sidebar-section-label">Language</div>
+      <a href="#identifiers" class="sidebar-link"><span class="sl-dot"></span>Identifiers</a>
+      <a href="#keywords"    class="sidebar-link"><span class="sl-dot"></span>Keywords</a>
+      <a href="#literals"    class="sidebar-link"><span class="sl-dot"></span>Literals</a>
+      <a href="#comments"    class="sidebar-link"><span class="sl-dot"></span>Comments</a>
+      <a href="#variables"   class="sidebar-link"><span class="sl-dot"></span>Variables</a>
+      <a href="#statements"  class="sidebar-link"><span class="sl-dot"></span>Statements</a>
+      <a href="#expressions" class="sidebar-link"><span class="sl-dot"></span>Expressions</a>
+      <a href="#precedence"  class="sidebar-link"><span class="sl-dot"></span>Precedence</a>
+
+      <div class="sidebar-section-label">Compiler</div>
+      <a href="#pipeline"   class="sidebar-link"><span class="sl-dot"></span>Pipeline</a>
+      <a href="#errors"     class="sidebar-link"><span class="sl-dot"></span>Error Reference</a>
+      <a href="#grammar"    class="sidebar-link"><span class="sl-dot"></span>Formal Grammar</a>
+
+      <div class="sidebar-section-label">Examples</div>
+      <a href="#examples"   class="sidebar-link"><span class="sl-dot"></span>Full Examples</a>
+    </nav>
+  </aside>
+
+  <!-- ─── CONTENT ──────────────────────────────────────────────────────────── -->
+  <main class="docs-content">
+
+    <!-- Hero Banner -->
+    <div class="docs-hero">
+      <h1>ToyLang Reference</h1>
+      <p>
+        ToyLang is a minimal imperative language designed for learning compiler construction.
+        It is intentionally small — just integers, four arithmetic operators, and simple I/O —
+        so you can focus on the <em>structure</em> of a language implementation rather than its complexity.
+      </p>
+      <div class="hero-chips">
+        <span class="hero-chip">Pure Python</span>
+        <span class="hero-chip">~600 lines</span>
+        <span class="hero-chip">Integer-only</span>
+        <span class="hero-chip">Recursive descent</span>
+        <span class="hero-chip">Tree-walk interpreter</span>
+        <span class="hero-chip">.tl extension</span>
+      </div>
+    </div>
+
+    <!-- ── INTRODUCTION ────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="intro">
+      <div class="docs-section-header">
+        <div class="section-icon icon-blue">🧸</div>
+        <div>
+          <div class="section-title">Introduction</div>
+          <div class="section-sub">What is ToyLang and why does it exist?</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>
+          ToyLang is a front-end compiler and tree-walking interpreter implemented in pure Python 3.10+.
+          The entire implementation — lexer, parser, semantic analyser, and interpreter — fits in
+          roughly <strong>600 lines of code</strong>, making it an ideal study case for understanding
+          how programming language tools work from first principles.
+        </p>
+        <p>
+          The language is deliberately constrained: it supports only <strong>integer variables</strong>,
+          <strong>basic arithmetic</strong>, and <strong>stdin/stdout I/O</strong>. There are no strings,
+          no booleans, no control flow. This keeps the grammar small enough to reason about completely
+          while still exercising every phase of a typical compiler pipeline.
+        </p>
+        <div class="callout callout-info">
+          <span class="callout-icon">💡</span>
+          <div>ToyLang source files use the <code>.tl</code> file extension.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── QUICK START ─────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="quickstart">
+      <div class="docs-section-header">
+        <div class="section-icon icon-green">🚀</div>
+        <div>
+          <div class="section-title">Quick Start</div>
+          <div class="section-sub">Running your first ToyLang program</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <h3>Hello, Numbers!</h3>
+        <p>Save the following as <code>hello.tl</code>:</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div>
+            <div class="code-block-dot dot-yellow"></div>
+            <div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;
+x = 6 * 7;
+<span class="hl-keyword">output</span> x;</pre>
+        </div>
+        <p>Run it with the Python CLI:</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div>
+            <div class="code-block-dot dot-yellow"></div>
+            <div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">shell</span>
+          </div>
+          <pre>./main.py hello.tl</pre>
+        </div>
+        <p>Output: <code>42</code></p>
+
+        <h3>CLI Options</h3>
+        <table class="docs-table">
+          <thead><tr><th>Flag</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>(none)</code></td><td>Lex → Parse → Semantic → Interpret (full run)</td></tr>
+            <tr><td><code>--tokens</code></td><td>Print token stream, then stop</td></tr>
+            <tr><td><code>--ast</code></td><td>Print AST, then stop</td></tr>
+            <tr><td><code>--check-only</code></td><td>Lex → Parse → Semantic only; prints <code>semantic: ok</code> if valid</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Exit Codes</h3>
+        <p><code>0</code> on success · <code>1</code> on any error (lexer, parser, semantic, or runtime).</p>
+        <div class="callout callout-info">
+          <span class="callout-icon">💡</span>
+          <div>Error messages are always written to <strong>stderr</strong> in the format<br>
+          <code>&lt;phase&gt;: &lt;line&gt;:&lt;col&gt;: &lt;message&gt;</code></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── IDENTIFIERS ─────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="identifiers">
+      <div class="docs-section-header">
+        <div class="section-icon icon-orange">🏷️</div>
+        <div>
+          <div class="section-title">Identifiers</div>
+          <div class="section-sub">Naming rules for variables</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>
+          An identifier is a name used to refer to a variable. ToyLang identifiers are
+          <strong>ASCII-only</strong> and must follow these rules:
+        </p>
+        <ul style="margin:10px 0 14px 18px;line-height:2;color:#374151;">
+          <li>May contain ASCII letters (<code>a–z</code>, <code>A–Z</code>), digits (<code>0–9</code>), and underscores (<code>_</code>).</li>
+          <li>Must <strong>not</strong> start with a digit.</li>
+          <li>Must <strong>not</strong> contain non-ASCII characters (e.g. accented letters, emoji).</li>
+          <li>Are <strong>case-sensitive</strong>: <code>count</code> and <code>Count</code> are different names.</li>
+        </ul>
+
+        <table class="docs-table">
+          <thead><tr><th>✅ Valid</th><th>❌ Invalid</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td><code>x</code></td><td><code>2x</code></td><td>Starts with a digit</td></tr>
+            <tr><td><code>my_var</code></td><td><code>café</code></td><td>Non-ASCII character (<code>é</code>)</td></tr>
+            <tr><td><code>count2</code></td><td><code>var</code></td><td>Reserved keyword</td></tr>
+            <tr><td><code>_helper</code></td><td><code>my-var</code></td><td>Hyphens are not allowed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── KEYWORDS ────────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="keywords">
+      <div class="docs-section-header">
+        <div class="section-icon icon-blue">🔑</div>
+        <div>
+          <div class="section-title">Keywords</div>
+          <div class="section-sub">Reserved words you cannot use as identifiers</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>ToyLang has exactly three keywords:</p>
+        <table class="docs-table">
+          <thead><tr><th>Keyword</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>var</code></td><td>Declare a new integer variable</td></tr>
+            <tr><td><code>input</code></td><td>Read an integer from standard input</td></tr>
+            <tr><td><code>output</code></td><td>Print a variable's value to standard output</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── LITERALS ────────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="literals">
+      <div class="docs-section-header">
+        <div class="section-icon icon-red">🔢</div>
+        <div>
+          <div class="section-title">Integer Literals</div>
+          <div class="section-sub">How to write numbers in ToyLang</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>
+          Integer literals are written as sequences of decimal digits (<code>0–9</code>).
+          There are no negative literals — use the unary minus operator to negate: <code>-5</code>.
+        </p>
+        <table class="docs-table">
+          <thead><tr><th>✅ Valid literals</th><th>❌ Invalid</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td><code>0</code>, <code>1</code>, <code>42</code>, <code>1000</code></td><td><code>-42</code> as a literal</td><td>Use <code>-42</code> as a unary expression instead</td></tr>
+            <tr><td>Any non-negative integer</td><td><code>3.14</code></td><td>Floats are not supported</td></tr>
+            <tr><td></td><td><code>0xFF</code></td><td>Only decimal notation</td></tr>
+          </tbody>
+        </table>
+        <div class="callout callout-info">
+          <span class="callout-icon">💡</span>
+          <div>Values are stored using Python's arbitrary-precision integers internally, but
+          extremely large literals (beyond <code>Number.MAX_SAFE_INTEGER</code>) will trigger a
+          lexer overflow error in the web playground.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COMMENTS ────────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="comments">
+      <div class="docs-section-header">
+        <div class="section-icon icon-teal">💬</div>
+        <div>
+          <div class="section-title">Comments</div>
+          <div class="section-sub">Block comments, the only comment style</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>
+          ToyLang supports only <strong>block comments</strong> using <code>/* ... */</code> syntax.
+          There are no line comments (<code>//</code> is not valid).
+        </p>
+        <p>Block comments may:</p>
+        <ul style="margin:10px 0 14px 18px;line-height:2;color:#374151;">
+          <li>Span multiple lines</li>
+          <li>Appear anywhere whitespace is allowed (before, between, or after tokens)</li>
+          <li>Be used inline within a statement</li>
+        </ul>
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div>Block comments <strong>cannot be nested</strong>. <code>/* outer /* inner */ end */</code> — the first
+          <code>*/</code> closes the comment, leaving <code>end */</code> as unexpected tokens.</div>
+        </div>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div>
+            <div class="code-block-dot dot-yellow"></div>
+            <div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-comment">/* This is a block comment */</span>
+<span class="hl-keyword">var</span> <span class="hl-comment">/* inline comment */</span> total;
+
+<span class="hl-comment">/*
+  Multi-line comment.
+  Explains the logic below.
+*/</span>
+total = (<span class="hl-number">8</span> + <span class="hl-number">4</span>) / <span class="hl-number">3</span>;
+<span class="hl-keyword">output</span> total; <span class="hl-comment">/* outputs 4 */</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── VARIABLES ───────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="variables">
+      <div class="docs-section-header">
+        <div class="section-icon icon-yellow">📦</div>
+        <div>
+          <div class="section-title">Variables</div>
+          <div class="section-sub">Declaring and using integer variables</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>
+          All variables in ToyLang are <strong>integers</strong>. There is only one type.
+        </p>
+
+        <h3>Declaration</h3>
+        <p>
+          Every variable must be declared with <code>var</code> before it can be used.
+          Declaration initialises the variable to <code>0</code>.
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div>
+            <div class="code-block-dot dot-yellow"></div>
+            <div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;      <span class="hl-comment">/* x is now 0 */</span>
+<span class="hl-keyword">var</span> count;  <span class="hl-comment">/* count is now 0 */</span></pre>
+        </div>
+
+        <h3>Scope</h3>
+        <p>There is no block scoping — all variables exist for the entire program.</p>
+
+        <h3>Rules</h3>
+        <ul style="margin:10px 0 14px 18px;line-height:2;color:#374151;">
+          <li>A variable <strong>must</strong> be declared before it is read or assigned.</li>
+          <li>A variable <strong>cannot</strong> be declared twice (duplicate declaration is a semantic error).</li>
+          <li>Multiple declarations are allowed as long as each uses a unique name.</li>
+        </ul>
+
+        <div class="callout callout-error">
+          <span class="callout-icon">❌</span>
+          <div>
+            <strong>Use before declaration:</strong><br>
+            <code>output x; var x;</code> — semantic error: <em>variable 'x' used before declaration</em>
+          </div>
+        </div>
+        <div class="callout callout-error">
+          <span class="callout-icon">❌</span>
+          <div>
+            <strong>Duplicate declaration:</strong><br>
+            <code>var x; var x;</code> — semantic error: <em>duplicate declaration for 'x'</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STATEMENTS ──────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="statements">
+      <div class="docs-section-header">
+        <div class="section-icon icon-purple">📋</div>
+        <div>
+          <div class="section-title">Statements</div>
+          <div class="section-sub">The four statement types in ToyLang</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>Every statement ends with a semicolon <code>;</code>. ToyLang has exactly four statement types:</p>
+
+        <h3>1. Variable Declaration — <code>var</code></h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">syntax</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> IDENTIFIER;</pre>
+        </div>
+        <p>Declares a new integer variable, initialised to <code>0</code>. The identifier must be unique (not previously declared).</p>
+
+        <h3>2. Assignment</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">syntax</span>
+          </div>
+          <pre>IDENTIFIER = expression;</pre>
+        </div>
+        <p>Evaluates the expression and stores the result in the (already-declared) variable.</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;
+x = <span class="hl-number">2</span> + <span class="hl-number">3</span> * <span class="hl-number">4</span>;  <span class="hl-comment">/* x = 14 */</span>
+x = x + <span class="hl-number">1</span>;        <span class="hl-comment">/* x = 15 */</span></pre>
+        </div>
+
+        <h3>3. Input — <code>input</code></h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">syntax</span>
+          </div>
+          <pre><span class="hl-keyword">input</span> IDENTIFIER;</pre>
+        </div>
+        <p>
+          Reads one line from <strong>standard input</strong>, parses it as an integer, and stores it
+          in the variable. The runtime prompts with <code>name = </code> before reading.
+        </p>
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div>If the input is not a valid integer, or if stdin is exhausted, a runtime error is raised.</div>
+        </div>
+
+        <h3>4. Output — <code>output</code></h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">syntax</span>
+          </div>
+          <pre><span class="hl-keyword">output</span> IDENTIFIER;</pre>
+        </div>
+        <p>Prints the current value of the variable as a decimal integer followed by a newline to <strong>standard output</strong>.</p>
+      </div>
+    </section>
+
+    <!-- ── EXPRESSIONS ─────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="expressions">
+      <div class="docs-section-header">
+        <div class="section-icon icon-red">⚙️</div>
+        <div>
+          <div class="section-title">Expressions</div>
+          <div class="section-sub">Arithmetic operators and operands</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>Expressions appear on the right-hand side of assignments. They always evaluate to an integer.</p>
+
+        <h3>Operators</h3>
+        <div class="op-grid">
+          <div class="op-card">
+            <span class="op-sym">+</span>
+            <div class="op-name">Addition</div>
+            <div class="op-example">a + b</div>
+          </div>
+          <div class="op-card">
+            <span class="op-sym">−</span>
+            <div class="op-name">Subtraction / Negation</div>
+            <div class="op-example">a - b &nbsp;·&nbsp; -x</div>
+          </div>
+          <div class="op-card">
+            <span class="op-sym">×</span>
+            <div class="op-name">Multiplication</div>
+            <div class="op-example">a * b</div>
+          </div>
+          <div class="op-card">
+            <span class="op-sym">÷</span>
+            <div class="op-name">Integer Division</div>
+            <div class="op-example">a / b</div>
+          </div>
+        </div>
+
+        <h3>Integer Division</h3>
+        <p>
+          The <code>/</code> operator performs <strong>integer division truncated toward zero</strong> —
+          the same as C's <code>/</code> operator for integers.
+        </p>
+        <table class="docs-table">
+          <thead><tr><th>Expression</th><th>Result</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td><code>7 / 2</code></td><td><code>3</code></td><td>Truncates, doesn't round</td></tr>
+            <tr><td><code>-7 / 2</code></td><td><code>-3</code></td><td>Toward zero, not floor (floor would be -4)</td></tr>
+            <tr><td><code>7 / -2</code></td><td><code>-3</code></td><td>Same sign logic</td></tr>
+            <tr><td><code>5 / 0</code></td><td>runtime error</td><td>Division by zero</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Unary Minus</h3>
+        <p>
+          The unary minus <code>-</code> negates its operand. It is <strong>right-associative</strong>
+          and binds tighter than multiplication:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;
+x = -<span class="hl-number">5</span>;          <span class="hl-comment">/* x = -5 */</span>
+x = --<span class="hl-number">3</span>;         <span class="hl-comment">/* x = 3  (double negation) */</span>
+x = <span class="hl-number">3</span> - -<span class="hl-number">2</span>;      <span class="hl-comment">/* x = 5  (3 minus negative 2) */</span>
+<span class="hl-keyword">output</span> x;</pre>
+        </div>
+
+        <h3>Parentheses</h3>
+        <p>
+          Use parentheses to override default precedence:
+        </p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> a;
+<span class="hl-keyword">var</span> b;
+a = <span class="hl-number">2</span> + <span class="hl-number">3</span> * <span class="hl-number">4</span>;    <span class="hl-comment">/* a = 14  (3*4 first) */</span>
+b = (<span class="hl-number">2</span> + <span class="hl-number">3</span>) * <span class="hl-number">4</span>;  <span class="hl-comment">/* b = 20  (2+3 first) */</span>
+<span class="hl-keyword">output</span> a;
+<span class="hl-keyword">output</span> b;</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PRECEDENCE ──────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="precedence">
+      <div class="docs-section-header">
+        <div class="section-icon icon-orange">📊</div>
+        <div>
+          <div class="section-title">Operator Precedence</div>
+          <div class="section-sub">Higher number = binds tighter = evaluated first</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <div style="display:flex;flex-direction:column;gap:10px;margin:14px 0;">
+          <div class="prec-row">
+            <div class="prec-num" style="background:var(--red);">1</div>
+            <div class="prec-line"></div>
+            <div class="prec-desc">
+              Additive &nbsp;<code>+</code> &nbsp;<code>-</code>
+              <span class="prec-assoc">left-to-right (lowest priority)</span>
+            </div>
+          </div>
+          <div class="prec-row">
+            <div class="prec-num" style="background:var(--orange);">2</div>
+            <div class="prec-line"></div>
+            <div class="prec-desc">
+              Multiplicative &nbsp;<code>*</code> &nbsp;<code>/</code>
+              <span class="prec-assoc">left-to-right</span>
+            </div>
+          </div>
+          <div class="prec-row">
+            <div class="prec-num" style="background:var(--green);">3</div>
+            <div class="prec-line"></div>
+            <div class="prec-desc">
+              Unary &nbsp;<code>-</code>
+              <span class="prec-assoc">right-to-left</span>
+            </div>
+          </div>
+          <div class="prec-row">
+            <div class="prec-num" style="background:var(--blue);">4</div>
+            <div class="prec-line"></div>
+            <div class="prec-desc">
+              Primary &nbsp;<code>( )</code> &nbsp;literals &nbsp;identifiers
+              <span class="prec-assoc">(highest priority)</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>Worked Example</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;
+x = <span class="hl-number">3</span> - -<span class="hl-number">2</span> * (<span class="hl-number">4</span> + <span class="hl-number">1</span>);
+<span class="hl-keyword">output</span> x;</pre>
+        </div>
+        <p>Evaluation order:</p>
+        <ol style="margin:10px 0 14px 22px;line-height:2.2;color:#374151;">
+          <li><code>(4 + 1)</code> = <code>5</code> — parentheses first</li>
+          <li><code>-2</code> = <code>-2</code> — unary minus</li>
+          <li><code>-2 * 5</code> = <code>-10</code> — multiplication</li>
+          <li><code>3 - (-10)</code> = <code>13</code> — subtraction</li>
+        </ol>
+        <p>Output: <code>13</code></p>
+      </div>
+    </section>
+
+    <!-- ── PIPELINE ────────────────────────────────────────────────────────── -->
+    <section class="docs-section" id="pipeline">
+      <div class="docs-section-header">
+        <div class="section-icon icon-teal">🔁</div>
+        <div>
+          <div class="section-title">Compiler Pipeline</div>
+          <div class="section-sub">How source code becomes results</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>ToyLang processes source code in four sequential phases:</p>
+
+        <table class="docs-table">
+          <thead><tr><th>#</th><th>Phase</th><th>Input</th><th>Output</th><th>Catches</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>🔤 <strong>Lexer</strong></td>
+              <td>Source text (UTF-8)</td>
+              <td>Token stream</td>
+              <td>Invalid characters, malformed literals, unterminated comments</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>🌳 <strong>Parser</strong></td>
+              <td>Token stream</td>
+              <td>Abstract Syntax Tree (AST)</td>
+              <td>Missing keywords, mismatched delimiters, unexpected tokens</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>🔍 <strong>Semantic Analyser</strong></td>
+              <td>AST</td>
+              <td>Validated AST (or error)</td>
+              <td>Use-before-declaration, duplicate declarations</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>⚡ <strong>Interpreter</strong></td>
+              <td>Validated AST</td>
+              <td>Program output</td>
+              <td>Division by zero, bad/missing input</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">💡</span>
+          <div>Each phase runs only if the previous phase succeeds. A lexer error prevents parsing;
+          a parser error prevents semantic analysis; and so on.</div>
+        </div>
+
+        <h3>The Playground Tabs</h3>
+        <p>The playground's four tabs correspond directly to these phases:</p>
+        <ul style="margin:10px 0 14px 18px;line-height:2;color:#374151;">
+          <li><strong>Tokens</strong> — output of the Lexer (phase 1)</li>
+          <li><strong>AST</strong> — output of the Parser (phase 2)</li>
+          <li><strong>Semantic</strong> — result of the Semantic Analyser (phase 3)</li>
+          <li><strong>Output</strong> — result of the Interpreter (phase 4)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── ERROR REFERENCE ─────────────────────────────────────────────────── -->
+    <section class="docs-section" id="errors">
+      <div class="docs-section-header">
+        <div class="section-icon icon-red">⚠️</div>
+        <div>
+          <div class="section-title">Error Reference</div>
+          <div class="section-sub">Every error type, what causes it, and how to fix it</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+
+        <h3>🔤 Lexer Errors</h3>
+        <table class="docs-table">
+          <thead><tr><th>Error message</th><th>Cause</th><th>Example that triggers it</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>invalid character 'X'</code></td>
+              <td>A non-ASCII character appears in identifier position or as a standalone character</td>
+              <td><code>var café;</code></td>
+            </tr>
+            <tr>
+              <td><code>identifier cannot start with a digit</code></td>
+              <td>A letter immediately follows an integer literal with no space</td>
+              <td><code>var 2x;</code></td>
+            </tr>
+            <tr>
+              <td><code>integer literal too large</code></td>
+              <td>The literal overflows the safe integer range</td>
+              <td>An enormous sequence of digits</td>
+            </tr>
+            <tr>
+              <td><code>unterminated block comment</code></td>
+              <td>A <code>/*</code> was opened but no matching <code>*/</code> was found before EOF</td>
+              <td><code>/* forgot to close</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>🌳 Parser Errors</h3>
+        <table class="docs-table">
+          <thead><tr><th>Error message</th><th>Cause</th></tr></thead>
+          <tbody>
+            <tr><td><code>expected identifier after 'var'</code></td><td><code>var;</code> or <code>var = ...</code></td></tr>
+            <tr><td><code>expected ';' after variable declaration</code></td><td><code>var x</code> (missing semicolon)</td></tr>
+            <tr><td><code>expected '=' after 'NAME'</code></td><td><code>x 5;</code> (missing equals sign)</td></tr>
+            <tr><td><code>expected ';' after assignment</code></td><td><code>x = 5</code> (missing semicolon)</td></tr>
+            <tr><td><code>expected identifier after 'input'</code></td><td><code>input;</code></td></tr>
+            <tr><td><code>expected identifier after 'output'</code></td><td><code>output;</code></td></tr>
+            <tr><td><code>expected ')' after expression</code></td><td><code>(1 + 2</code> (unmatched parenthesis)</td></tr>
+            <tr><td><code>unexpected token 'X'</code></td><td>Token appears where none is expected</td></tr>
+          </tbody>
+        </table>
+
+        <h3>🔍 Semantic Errors</h3>
+        <table class="docs-table">
+          <thead><tr><th>Error message</th><th>Cause</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>duplicate declaration for 'x'</code></td>
+              <td>The same name appears in two <code>var</code> declarations</td>
+            </tr>
+            <tr>
+              <td><code>variable 'x' used before declaration</code></td>
+              <td>The variable appears in an assignment, expression, <code>input</code>, or <code>output</code> before its <code>var</code> declaration</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>⚡ Runtime Errors</h3>
+        <table class="docs-table">
+          <thead><tr><th>Error message</th><th>Cause</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>division by zero</code></td>
+              <td>The right operand of <code>/</code> evaluated to <code>0</code></td>
+            </tr>
+            <tr>
+              <td><code>unexpected end of input</code></td>
+              <td>An <code>input</code> statement was reached but stdin had no more data</td>
+            </tr>
+            <tr>
+              <td><code>expected integer, got 'X'</code></td>
+              <td>stdin contained a non-integer value (e.g. <code>"hello"</code>)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── FORMAL GRAMMAR ──────────────────────────────────────────────────── -->
+    <section class="docs-section" id="grammar">
+      <div class="docs-section-header">
+        <div class="section-icon icon-purple">📐</div>
+        <div>
+          <div class="section-title">Formal Grammar (BNF)</div>
+          <div class="section-sub">The complete syntactic specification of ToyLang</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+        <p>
+          ToyLang's grammar is a simple LL(1) grammar, parsed by a hand-written recursive descent parser.
+          Each non-terminal maps directly to a method in the parser:
+        </p>
+        <div class="grammar-block">
+<span class="gr-rule">program</span>   <span class="gr-assign">:=</span> <span class="gr-rule">statement</span><span class="gr-star">*</span> <span class="gr-literal">EOF</span>
+
+<span class="gr-rule">statement</span> <span class="gr-assign">:=</span> <span class="gr-literal">"var"</span>    <span class="gr-rule">IDENT</span> <span class="gr-literal">";"</span>
+          <span class="gr-alt">|</span>  <span class="gr-rule">IDENT</span> <span class="gr-literal">"="</span> <span class="gr-rule">expr</span> <span class="gr-literal">";"</span>
+          <span class="gr-alt">|</span>  <span class="gr-literal">"input"</span>  <span class="gr-rule">IDENT</span> <span class="gr-literal">";"</span>
+          <span class="gr-alt">|</span>  <span class="gr-literal">"output"</span> <span class="gr-rule">IDENT</span> <span class="gr-literal">";"</span>
+
+<span class="gr-rule">expr</span>      <span class="gr-assign">:=</span> <span class="gr-rule">term</span> <span class="gr-group">( ( <span class="gr-literal">"+"</span> <span class="gr-alt">|</span> <span class="gr-literal">"-"</span> ) <span class="gr-rule">term</span> )</span><span class="gr-star">*</span>
+
+<span class="gr-rule">term</span>      <span class="gr-assign">:=</span> <span class="gr-rule">unary</span> <span class="gr-group">( ( <span class="gr-literal">"*"</span> <span class="gr-alt">|</span> <span class="gr-literal">"/"</span> ) <span class="gr-rule">unary</span> )</span><span class="gr-star">*</span>
+
+<span class="gr-rule">unary</span>     <span class="gr-assign">:=</span> <span class="gr-literal">"-"</span> <span class="gr-rule">unary</span>  <span class="gr-alt">|</span>  <span class="gr-rule">primary</span>
+
+<span class="gr-rule">primary</span>   <span class="gr-assign">:=</span> <span class="gr-literal">INT</span>
+          <span class="gr-alt">|</span>  <span class="gr-literal">IDENT</span>
+          <span class="gr-alt">|</span>  <span class="gr-literal">"("</span> <span class="gr-rule">expr</span> <span class="gr-literal">")"</span>
+        </div>
+
+        <h3>Lexical Rules</h3>
+        <div class="grammar-block">
+<span class="gr-rule">INT</span>       <span class="gr-assign">:=</span> <span class="gr-group">[0-9]</span><span class="gr-star">+</span>
+<span class="gr-rule">IDENT</span>     <span class="gr-assign">:=</span> <span class="gr-group">[a-zA-Z_]</span> <span class="gr-group">[a-zA-Z0-9_]</span><span class="gr-star">*</span>
+<span class="gr-rule">KEYWORD</span>   <span class="gr-assign">:=</span> <span class="gr-literal">"var"</span> <span class="gr-alt">|</span> <span class="gr-literal">"input"</span> <span class="gr-alt">|</span> <span class="gr-literal">"output"</span>
+<span class="gr-rule">COMMENT</span>   <span class="gr-assign">:=</span> <span class="gr-literal">"/*"</span> <span class="gr-group">(.)</span><span class="gr-star">*</span> <span class="gr-literal">"*/"</span>
+<span class="gr-rule">WHITESPACE</span><span class="gr-assign">:=</span> skipped
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FULL EXAMPLES ───────────────────────────────────────────────────── -->
+    <section class="docs-section" id="examples">
+      <div class="docs-section-header">
+        <div class="section-icon icon-green">🎯</div>
+        <div>
+          <div class="section-title">Complete Examples</div>
+          <div class="section-sub">Annotated programs — try them in the Playground!</div>
+        </div>
+      </div>
+      <div class="docs-section-body">
+
+        <h3>basic.tl — Operator Precedence</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — output: 14</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;
+x = <span class="hl-number">2</span> + <span class="hl-number">3</span> * <span class="hl-number">4</span>;  <span class="hl-comment">/* 3*4=12, then 2+12=14 */</span>
+<span class="hl-keyword">output</span> x;</pre>
+        </div>
+
+        <h3>comments.tl — Block Comments</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — output: 4</span>
+          </div>
+          <pre><span class="hl-comment">/* Comments can appear before the program. */</span>
+<span class="hl-keyword">var</span> <span class="hl-comment">/* inline */</span> total;
+total = (<span class="hl-number">8</span> + <span class="hl-number">4</span>) / <span class="hl-number">3</span>;  <span class="hl-comment">/* 12/3=4 */</span>
+<span class="hl-keyword">output</span> total;</pre>
+        </div>
+
+        <h3>precedence.tl — Unary Minus</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — output: 13</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x;
+x = <span class="hl-number">3</span> - -<span class="hl-number">2</span> * (<span class="hl-number">4</span> + <span class="hl-number">1</span>);
+<span class="hl-comment">/* Steps: (4+1)=5, -2*5=-10, 3-(-10)=13 */</span>
+<span class="hl-keyword">output</span> x;</pre>
+        </div>
+
+        <h3>input_output.tl — Reading User Input</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — stdin: 7 → output: 14</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> number;
+<span class="hl-keyword">input</span> number;         <span class="hl-comment">/* prompts: number = */</span>
+number = number * <span class="hl-number">2</span>;
+<span class="hl-keyword">output</span> number;</pre>
+        </div>
+
+        <h3>invalid_identifier.tl — Lexer Error</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — ERROR</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> café;   <span class="hl-comment">/* ← 'é' is non-ASCII */</span>
+<span class="hl-keyword">output</span> café;</pre>
+        </div>
+        <div class="callout callout-error">
+          <span class="callout-icon">❌</span>
+          <div><code>lexer: 1:5: invalid character 'é'</code></div>
+        </div>
+
+        <h3>invalid_syntax.tl — Parser Error</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — ERROR</span>
+          </div>
+          <pre><span class="hl-keyword">var</span> x    <span class="hl-comment">/* ← missing semicolon */</span>
+<span class="hl-keyword">output</span> x;</pre>
+        </div>
+        <div class="callout callout-error">
+          <span class="callout-icon">❌</span>
+          <div><code>parser: 2:1: expected ';' after variable declaration</code></div>
+        </div>
+
+        <h3>invalid_semantic.tl — Semantic Error</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-block-dot dot-red"></div><div class="code-block-dot dot-yellow"></div><div class="code-block-dot dot-green"></div>
+            <span class="code-block-lang">toylang — ERROR</span>
+          </div>
+          <pre><span class="hl-keyword">output</span> x;  <span class="hl-comment">/* ← used before declaration */</span>
+<span class="hl-keyword">var</span> x;</pre>
+        </div>
+        <div class="callout callout-error">
+          <span class="callout-icon">❌</span>
+          <div><code>semantic: 1:8: variable 'x' used before declaration</code></div>
+        </div>
+
+        <div style="margin-top:24px;text-align:center;">
+          <a href="index.html" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:1.1rem;padding:14px 30px;background:var(--red);color:#fff;border:3px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;box-shadow:0 5px 0 var(--red-dark);transition:transform 0.1s,box-shadow 0.1s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 7px 0 var(--red-dark)'" onmouseout="this.style.transform='';this.style.boxShadow='0 5px 0 var(--red-dark)'">
+            ▶ Try them in the Playground
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /docs-content -->
+</div><!-- /docs-body -->
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <p>
+    ToyLang — a toy compiler front-end &nbsp;·&nbsp;
+    <a href="index.html">Playground</a>
+  </p>
+</footer>
+
+</body>
+</html>
