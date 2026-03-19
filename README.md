@@ -2,7 +2,7 @@
 
 A toy-language front end and tree-walking interpreter written in pure Python -- lexer, parser, semantic checker, and interpreter in ~600 lines.
 
-![Python 3](https://img.shields.io/badge/python-3.x-blue?logo=python&logoColor=white)
+![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)
 
 ## Quick Look
 
