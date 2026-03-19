@@ -123,7 +123,15 @@ class Lexer:
                     column,
                 )
         lexeme = self.source[start:self.index]
-        return Token(TokenType.INT, lexeme, line, column, value=int(lexeme))
+        try:
+            value = int(lexeme)
+        except ValueError:
+            raise LexError(
+                f"integer literal too large: {lexeme[:20]!r}...",
+                line,
+                column,
+            ) from None
+        return Token(TokenType.INT, lexeme, line, column, value=value)
 
     def is_ascii_digit(self, char: str) -> bool:
         return "0" <= char <= "9"

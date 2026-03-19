@@ -42,6 +42,12 @@ class LexerTests(unittest.TestCase):
             "lexer: 1:12: identifier cannot start with a digit: '12abc'",
         )
 
+    def test_rejects_extremely_large_integer_literal(self) -> None:
+        with self.assertRaises(LexError) as context:
+            Lexer("9" * 5000).tokenize()
+
+        self.assertIn("integer literal too large", str(context.exception))
+
     def test_rejects_non_ascii_identifier_characters(self) -> None:
         with self.assertRaises(LexError) as context:
             Lexer("var café;").tokenize()
