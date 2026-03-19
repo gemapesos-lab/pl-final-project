@@ -16,8 +16,8 @@ from toy_lang.semantic import SemanticAnalyzer
 def read_source_text(source_path: Path) -> str:
     try:
         return source_path.read_text(encoding="utf-8")
-    except OSError as exc:
-        reason = exc.strerror or str(exc)
+    except (OSError, ValueError) as exc:
+        reason = getattr(exc, "strerror", None) or str(exc)
         raise OSError(f"unable to read source file {source_path}: {reason}") from exc
 
 
@@ -87,6 +87,9 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     except OSError as exc:
         print(f"io: {exc}", file=sys.stderr)
+        return 1
+    except RecursionError:
+        print("error: expression nesting too deep", file=sys.stderr)
         return 1
 
 

@@ -109,6 +109,28 @@ class CliTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertEqual(result.stderr.strip(), "semantic: 1:8: variable 'x' used before declaration")
 
+    def test_reports_non_utf8_source_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            source_path = Path(temp_dir) / "binary.tl"
+            source_path.write_bytes(b"\xff\xfe")
+            result = subprocess.run(
+                [sys.executable, "main.py", str(source_path)],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("io: unable to read source file", result.stderr)
+
+    def test_reports_deep_expression_nesting(self) -> None:
+        source = "var x; x = " + " + ".join(["1"] * 2000) + ";"
+        result = self.run_cli(source)
+
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("expression nesting too deep", result.stderr)
+
     def test_cli_reports_lexer_errors(self) -> None:
         result = self.run_cli("var café;")
 
