@@ -44,6 +44,40 @@ flowchart LR
 
 > Use `python3 main.py` if `./main.py` lacks executable permission.
 
+## Website And Vercel
+
+The repository includes a static browser playground in `website/`.
+
+### Run locally
+
+```bash
+python3 -m http.server 4173 --directory website
+```
+
+Then open `http://localhost:4173`.
+
+### Deploy with Vercel CLI
+
+Install the CLI once on the machine:
+
+```bash
+npm install -g vercel --prefix "$HOME/.local"
+```
+
+Log in and link the static site directory:
+
+```bash
+vercel login
+vercel --cwd website
+```
+
+After the first link, future deployments can be done with:
+
+```bash
+vercel --cwd website
+vercel --prod --cwd website
+```
+
 ## Project Structure
 
 ```
